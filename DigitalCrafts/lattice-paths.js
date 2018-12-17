@@ -33,6 +33,19 @@ let makeGrid = (rows, columns) => {
         }
     }
     return fullGrid[rows][columns];
-}
+};
 
 console.log(makeGrid(20, 20));
+
+
+//---------------------------------------
+//      CLASS SOLUTION - USING RECURSION
+//---------------------------------------
+
+let countPathsRecursive = (width, height) => {
+    if (width === 0 || height === 0) {
+        return 1;
+    } else {
+        return countPathsRecursive(width, height - 1) + countPathsRecursive(width - 1, height);
+    }
+};
