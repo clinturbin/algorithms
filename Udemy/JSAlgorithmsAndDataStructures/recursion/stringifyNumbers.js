@@ -15,23 +15,19 @@
 //                 My Solution
 //---------------------------------------------------------
 // Note: my solution didn't work in Udemy console
+// modified my solution after looking at Colt's
 let stringifyNumbers = (obj) => {
-    let value;
-    let keys = Object.keys(obj);
-    if (keys.length === 0) return {};
-    let firstKey = keys[0];
-    if (typeof obj[firstKey] === 'number') {
-        value = {[firstKey]: obj[firstKey].toString()};
-    } else if (typeof obj[firstKey] === 'object' && !Array.isArray(obj[firstKey])) {
-        value = {[firstKey]: stringifyNumbers(obj[firstKey])};
-    } else {
-        value = {[firstKey]: obj[firstKey]};
+    let result = {};
+    for (let key in obj) {
+        if (typeof obj[key] === 'number') {
+            result[key] = obj[key].toString();
+        } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+            result[key] = stringifyNumbers(obj[key]);
+        } else {
+            result[key] = obj[key];
+        }
     }
-    let {[firstKey]: remove, ...newObject} = obj;
-    return Object.assign({}, value, stringifyNumbers(newObject));
-
-    // delete obj[firstKey];
-    // return Object.assign({}, value, stringifyNumbers(obj));
+    return result;
 };
 
 
@@ -63,3 +59,20 @@ console.log(stringifyNumbers(obj));
     }
 }
 */
+
+//---------------------------------------------------------
+//                 Colt's Solution
+//---------------------------------------------------------
+function stringifyNumbers(obj) {
+    var newObj = {};
+    for (var key in obj) {
+      if (typeof obj[key] === 'number') {
+        newObj[key] = obj[key].toString();
+      } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+        newObj[key] = stringifyNumbers(obj[key]);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+    return newObj;
+}
