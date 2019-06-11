@@ -50,31 +50,40 @@
 */
 
 const pickingNumbers = a => {
-    let maxArrayLength = 0;
-    const differencesLessThan1 = (startNum, arr) => arr.every(num => Math.abs(startNum - num) <= 1);
-    const makesubArray = arr => {
-        if (arr.length <= 1) return arr; 
-        let firstNum = arr[0];
-        let remainderArray = arr.slice(1);
-        let subArray = remainderArray.filter(num => Math.abs(firstNum - num) <= 1);
-        let newArr = [];
-        for (let i = 0; i < subArray.length; i++) {
-            if ( (i + 1) >= subArray.length ) {
-                newArr.push(subArray[i]);
-            } else if (differencesLessThan1(subArray[i], subArray.slice(i+1))) {
-                newArr.push(subArray[i]);
+    let sortedArray = a.sort();
+    let maxNumberOfIntegers = 1;
+    let startingNumber;
+    for (let i = 0; i < sortedArray.length; i++) {
+        if (sortedArray[i] !== startingNumber) {
+            startingNumber = sortedArray[i];
+            let subArray = sortedArray.slice(i + 1);
+            let tempMaxNumber = 1;
+            let j = 0;
+            while ((j < subArray.length) && (Math.abs(startingNumber - subArray[j]) <= 1)) {
+                tempMaxNumber++;
+                j++;
+            }
+            if (tempMaxNumber > maxNumberOfIntegers) {
+                maxNumberOfIntegers = tempMaxNumber;
             }
         }
-        return [firstNum].concat(newArr);
-    };
-    for (let i = 0; i < a.length; i++) {
-        let subArray = makesubArray(a.slice(i));
-        if (subArray.length > maxArrayLength) {
-            maxArrayLength = subArray.length;
-        }
     }
-    return maxArrayLength;
+    return maxNumberOfIntegers;
 }
 
 console.log(pickingNumbers([4, 6, 5, 3, 3, 1]));
 console.log(pickingNumbers([1, 2, 2, 3, 1, 2]));
+
+// Test Array 3 should return 13
+let testArray3 = [9, 6, 13, 16, 5, 18, 4, 10, 3, 19,
+                  4, 5, 8, 1, 13, 10, 20, 17, 15, 10, 
+                  6, 10, 13, 20, 18, 17, 7, 10, 6, 5, 
+                  16, 18, 13, 20, 19, 7, 16, 13, 20, 
+                  17, 4, 17, 8, 19, 12, 7, 17, 1, 18, 
+                  3, 16, 4, 5, 3, 15, 17, 6, 17, 14, 11, 
+                  11, 7, 11, 6, 15, 15, 12, 6, 17, 19, 8, 
+                  6, 13, 9, 10, 19, 14, 18, 7, 9, 11, 16, 
+                  11, 20, 4, 20, 10, 7, 8, 4, 2, 12, 11, 
+                  8, 12, 13, 19, 8, 8, 5];
+
+console.log(pickingNumbers(testArray3));
