@@ -56,7 +56,6 @@
 
 const jumpingOnClouds = c => {
     let finalPath = [];
-    let thunderClouds = [];
     let i = 0;
     while ( i < c.length - 1) {
         if ( (i + 2 < c.length) && (c[i+2] === 0) ) {
